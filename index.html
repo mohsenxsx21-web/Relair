@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RELAIR Thrift Wear</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Show success message
+            const message = document.getElementById('success-message');
+            message.style.display = 'block';
+
+            // Optionally, hide the form after submission
+            const form = document.querySelector('form');
+            form.style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="logo">RELAIR Thrift Wear</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#cart">Cart</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>RELAIR Thrift Wear</h1>
+        <p>Your go-to thrift shop for sustainable and stylish wear!</p>
+        <a href="#products"><button>Shop Now</button></a>
+    </section>
+
+    <section class="products" id="products">
+        <h2>Featured Products</h2>
+        <div class="product-list">
+            <!-- Product 1 -->
+            <div class="product">
+                <a href="product-details.html?name=Adi%20Crewneck%20Sweater">
+                    <img src="images/image1.jpg" alt="Adi Crewneck Sweater">
+                    <p class="price">₱1,799</p>
+                    <p class="size">29 L / 24 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 2 -->
+            <div class="product">
+                <a href="product-details.html?name=Vans%20Sweater">
+                    <img src="images/image2.jpg" alt="Vans Sweater">
+                    <p class="price">₱1,099</p>
+                    <p class="size">25 L / 21 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 3 -->
+            <div class="product">
+                <a href="product-details.html?name=Adi%20Paris%20Track%20Jacket">
+                    <img src="images/image3.jpg" alt="Adi Paris Track Jacket">
+                    <p class="price">₱899</p>
+                    <p class="size">22 L / 19 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 4 -->
+            <div class="product">
+                <a href="product-details.html?name=Ellesse%20Windbreaker">
+                    <img src="images/image4.jpg" alt="Ellesse Windbreaker">
+                    <p class="price">₱1,199</p>
+                    <p class="size">20 L / 26 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 5 -->
+            <div class="product">
+                <a href="product-details.html?name=Kappa%20Polo">
+                    <img src="images/image5.jpg" alt="Kappa Polo">
+                    <p class="price">₱799</p>
+                    <p class="size">28 L / 25 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 6 -->
+            <div class="product">
+                <a href="product-details.html?name=Adi%20Windbreaker">
+                    <img src="images/image6.jpg" alt="Adi Windbreaker">
+                    <p class="price">₱1,099</p>
+                    <p class="size">25 L / 21 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 7 -->
+            <div class="product">
+                <a href="product-details.html?name=Nike%20Button-down%20Windbreaker">
+                    <img src="images/image7.jpg" alt="Nike Button-down Windbreaker">
+                    <p class="price">₱1,299</p>
+                    <p class="size">28 L / 24 W</p>
+                </a>
+            </div>
+    
+            <!-- Product 8 -->
+            <div class="product">
+                <a href="product-details.html?name=Nike%20Big%20Logo%20Windbreaker">
+                    <img src="images/image8.jpg" alt="Nike Big Logo Windbreaker">
+                    <p class="price">₱1,299</p>
+                    <p class="size">26 L / 24 W</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 RELAIR Thrift Wear. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
+

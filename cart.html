@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - RELAIR Thrift Wear</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .cart-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .cart-item-details h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-details p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .cart-summary {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-top: 2px solid #ddd;
+        }
+
+        .cart-summary button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .cart-summary button:hover {
+            background-color: #45a049;
+        }
+
+        .total-price {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+            color: #333;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 30px;
+        }
+
+        .thank-you-message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .thank-you-message h2 {
+            font-size: 36px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-message p {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">RELAIR Thrift Wear</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html">Products</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="cart-container" id="cart-container">
+        <h1>Your Cart</h1>
+
+        <div id="cart-items-container"></div>
+
+        <div class="cart-summary">
+            <div class="total-price" id="total-price">Total: ₱0</div>
+            <button onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div id="thank-you-message" class="thank-you-message" style="display: none;">
+        <h2>THANK YOU FOR CHOOSING RELAIR Thrift Wear</h2>
+        <p>Your order has been successfully placed. We look forward to serving you again!</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RELAIR Thrift Wear. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Cart data in localStorage (if persisted between pages)
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Product details array (with image paths)
+        const products = [
+            { name: 'Adi Crewneck Sweater', size: 'M', price: 1799, image: 'images/image1.jpg' },
+            { name: 'Vans Sweater', size: 'L', price: 1099, image: 'images/image2.jpg' },
+            { name: 'Adi Paris Track Jacket', size: 'L', price: 899, image: 'images/image3.jpg' },
+            { name: 'Ellesse Windbreaker', size: 'L', price: 1199, image: 'images/image4.jpg' },
+            { name: 'Kappa Polo', size: 'L', price: 799, image: 'images/image5.jpg' },
+            { name: 'Adi Windbreaker', size: 'L', price: 1099, image: 'images/image6.jpg' },
+            { name: 'Nike Button-down Windbreaker', size: 'L', price: 1299, image: 'images/image7.jpg' },
+            { name: 'Nike Big Logo Windbreaker', size: 'L', price: 1299, image: 'images/image8.jpg' }
+        ];
+
+        // Function to calculate and display the cart contents
+        function calculateCart() {
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const totalPriceElement = document.getElementById('total-price');
+            let total = 0;
+
+            cartItemsContainer.innerHTML = ''; // Clear existing cart items
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+                totalPriceElement.innerHTML = 'Total: ₱0';
+                return;
+            }
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+
+                cartItemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <h2>${item.name}</h2>
+                        <p>Size: ${item.size}</p>
+                        <p class="cart-item-quantity">Quantity: ${item.quantity}</p>
+                    </div>
+                    <div class="cart-item-price">₱${itemTotal}</div>
+                `;
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+
+            totalPriceElement.innerHTML = `Total: ₱${total}`;
+        }
+
+        // Function to handle checkout
+        function checkout() {
+            // Clear the cart in localStorage
+            localStorage.removeItem('cart');
+            cart = []; // Empty the cart array
+
+            // Hide the cart and show the thank you message
+            document.getElementById('cart-container').style.display = 'none';
+            document.getElementById('thank-you-message').style.display = 'flex'; // Use flex to center the message
+
+            // Reset the page (for future visits, the cart will remain empty)
+            setTimeout(() => {
+                window.location.href = "cart.html"; // Redirect to the cart page to refresh it after checkout
+            }, 3000); // 3-second delay before redirecting to refresh the page
+        }
+
+        // Run the cart calculation on page load
+        window.onload = calculateCart;
+    </script>
+</body>
+</html>
+
+

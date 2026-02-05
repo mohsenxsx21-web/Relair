@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #333;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #f4a261;
+        }
+
+        /* Product Details */
+        .product-detail {
+            display: flex;
+            margin-top: 30px;
+            justify-content: center;
+        }
+
+        .product-info img {
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-details {
+            max-width: 500px;
+            margin-left: 40px;
+        }
+
+        .product-details h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .product-details p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .quantity button:hover {
+            background-color: #f4a261;
+        }
+
+        .quantity input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin: 0 10px;
+        }
+
+        .product-details button {
+            background-color: #f4a261;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .product-details button:hover {
+            background-color: #e76f51;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            background-color: #333;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">RELAIR Thrift Wear</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="cart.html">Cart</a></li>
+        </ul>
+    </nav>
+
+    <section class="product-detail">
+        <div class="product-info">
+            <img id="product-image" src="images/image1.jpg" alt="Product Image">
+        </div>
+
+        <div class="product-details">
+            <h1 id="product-name"></h1>
+            <p id="product-size"></p>
+            <p id="product-price"></p>
+            <div class="quantity">
+                <button onclick="changeQuantity(-1)">-</button>
+                <input type="text" id="quantity" value="1" readonly>
+                <button onclick="changeQuantity(1)">+</button>
+            </div>
+            <form action="#" method="post" onsubmit="handleAddToCart(event)">
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 RELAIR Thrift Wear. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const products = {
+            "Adi Crewneck Sweater": ["images/image1.jpg", "29 L / 24 W", 1799],
+            "Vans Sweater": ["images/image2.jpg", "25 L / 21 W", 1099],
+            "Adi Paris Track Jacket": ["images/image3.jpg", "22 L / 19 W", 899],
+            "Ellesse Windbreaker": ["images/image4.jpg", "20 L / 26 W", 1199],
+            "Kappa Polo": ["images/image5.jpg", "28 L / 25 W", 799],
+            "Adi Windbreaker": ["images/image6.jpg", "25 L / 21 W", 1099],
+            "Nike Button-down Windbreaker": ["images/image7.jpg", "28 L / 24 W", 1299],
+            "Nike Big Logo Windbreaker": ["images/image8.jpg", "26 L / 24 W", 1299]
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('name');
+        const product = products[productName] || ["images/default.jpg", "N/A", 0];
+
+        document.getElementById('product-name').textContent = productName;
+        document.getElementById('product-size').textContent = `Size: ${product[1]}`;
+        document.getElementById('product-price').textContent = `Price: ₱${product[2]}`;
+        document.getElementById('product-image').src = product[0];
+
+        function changeQuantity(amount) {
+            let quantity = parseInt(document.getElementById('quantity').value) + amount;
+            document.getElementById('quantity').value = quantity < 1 ? 1 : quantity;
+        }
+
+        function handleAddToCart(event) {
+            event.preventDefault();
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cart.find(item => item.name === productName);
+
+            if (existingProduct) {
+                existingProduct.quantity += quantity;
+            } else {
+                cart.push({
+                    name: productName,
+                    image: product[0],
+                    size: product[1],
+                    price: product[2],
+                    quantity: quantity
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${productName} has been added to your cart!`);
+        }
+    </script>
+
+</body>
+</html>
+
